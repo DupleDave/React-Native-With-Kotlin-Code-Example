@@ -16,7 +16,7 @@ import com.facebook.react.modules.core.DeviceEventManagerModule
 import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
-
+import com.quectel.qcarapi.util.QCarLog
 
 class SampleModule(context: ReactApplicationContext) : ReactContextBaseJavaModule()
 {
