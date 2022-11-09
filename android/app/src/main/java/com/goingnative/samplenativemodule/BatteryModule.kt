@@ -1,62 +1,34 @@
 package com.goingnative.samplenativemodule
 
 import android.content.Context.BATTERY_SERVICE
-import android.content.Context.WIFI_SERVICE
 import android.content.Intent
 import android.content.Intent.*
 import android.content.IntentFilter
-import android.net.wifi.WifiManager
 import android.os.BatteryManager
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
-import androidx.annotation.RequiresApi
 import com.facebook.react.bridge.*
-import com.facebook.react.modules.core.DeviceEventManagerModule
-import java.time.ZoneOffset
-import java.time.ZonedDateTime
-import java.time.format.DateTimeFormatter
-import com.quectel.qcarapi.util.QCarLog
 
 class BatteryModule(context: ReactApplicationContext) : ReactContextBaseJavaModule()
 {
 
     private val _mainHandler = Handler(Looper.getMainLooper())
     private val rContext: ReactApplicationContext = context
-    var wifiManager: WifiManager = rContext.applicationContext.getSystemService(WIFI_SERVICE) as WifiManager
-
-    var secondsCount = 0
+//    var wifiManager: WifiManager = rContext.applicationContext.getSystemService(WIFI_SERVICE) as WifiManager
 
     var androidContext = rContext.applicationContext // This is where you get the context
-
-    @ReactMethod
-    fun enableWifi() {
-        println("Enabling Wifi")
-        wifiManager.isWifiEnabled = true
-    }
-    @ReactMethod
-    fun disableWifi() {
-        println("Disabling Wifi")
-        wifiManager.isWifiEnabled = false
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    @ReactMethod
-    fun getCurrentTime(promise: Promise) {
-        val date = ZonedDateTime.now( ZoneOffset.UTC ).format( DateTimeFormatter.ISO_INSTANT )
-        promise.resolve(date)
-    }
-
-
-    @ReactMethod
-    fun addListener(eventName: String?) {
-        // Keep: Required for RN built in Event Emitter Calls.
-    }
-
-    @ReactMethod
-    fun removeListeners(count: Int?) {
-        // Keep: Required for RN built in Event Emitter Calls.
-    }
+//
+//    @ReactMethod
+//    fun enableWifi() {
+//        println("Enabling Wifi")
+//        wifiManager.isWifiEnabled = true
+//    }
+//    @ReactMethod
+//    fun disableWifi() {
+//        println("Disabling Wifi")
+//        wifiManager.isWifiEnabled = false
+//    }
 
     @ReactMethod
     open fun getBatteryLevel(promise: Promise) {
@@ -126,32 +98,15 @@ class BatteryModule(context: ReactApplicationContext) : ReactContextBaseJavaModu
 
     }
 
-    @ReactMethod
-    fun dispatchEventEverySecond() {
-        _mainHandler.post(object : Runnable {
-            override fun run() {
-                secondsCount += 1
-                val event = Arguments.createMap()
-                event.putInt("count", secondsCount)
-                sendEvent(
-                    rContext,
-                    "onTimeUpdated",
-                    event
-                )
-                _mainHandler.postDelayed(this, 1000)
-            }
-        })
-    }
-
-    private fun sendEvent(
-        reactContext: ReactContext,
-        eventName: String,
-        params: WritableMap
-    ) {
-        reactContext
-            .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter::class.java)
-            .emit(eventName, params)
-    }
+//    private fun sendEvent(
+//        reactContext: ReactContext,
+//        eventName: String,
+//        params: WritableMap
+//    ) {
+//        reactContext
+//            .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter::class.java)
+//            .emit(eventName, params)
+//    }
 
     override fun getName(): String {
         return "Battery"
