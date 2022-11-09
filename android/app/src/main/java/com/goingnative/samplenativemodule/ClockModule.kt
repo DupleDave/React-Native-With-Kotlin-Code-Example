@@ -18,7 +18,7 @@ import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import com.quectel.qcarapi.util.QCarLog
 
-class SampleModule(context: ReactApplicationContext) : ReactContextBaseJavaModule()
+class ClockModule(context: ReactApplicationContext) : ReactContextBaseJavaModule()
 {
 
     private val _mainHandler = Handler(Looper.getMainLooper())

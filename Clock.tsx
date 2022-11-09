@@ -10,18 +10,6 @@ class SampleModule {
     NativeModules.Clock.dispatchEventEverySecond();
   };
 
-  getBatteryLevel = async () => {
-    return NativeModules.Clock.getBatteryLevel();
-  }
-  getBatteryStatus = async () => {
-    return NativeModules.Clock.getBatteryStatus();
-  }
-  
-  getDockedStatus = async () => {
-    return NativeModules.Clock.getBatteryStatus();
-  }
-
-
   getCurrentTimeEvents = (callback: (time: number) => void): void => {
     const clockEvents = new NativeEventEmitter(NativeModules.Clock);
 

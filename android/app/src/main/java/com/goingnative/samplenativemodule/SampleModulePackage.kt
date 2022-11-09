@@ -20,7 +20,10 @@ class SampleModulePackage : ReactPackage {
             MutableList<NativeModule>
     {
         val nativeModules = ArrayList<NativeModule>()
-        nativeModules.add(SampleModule(reactContext))
+        nativeModules.add(BatteryModule(reactContext))
+        nativeModules.add(BluetoothModule(reactContext))
+        nativeModules.add(ClockModule(reactContext))
+        nativeModules.add(QCarModule(reactContext))
         return nativeModules
     }
 }

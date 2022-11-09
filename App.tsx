@@ -1,7 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {Text, View, StyleSheet, NativeSyntheticEvent, Button} from 'react-native';
 import Clock from './Clock';
+import Battery from './Battery';
+import Bluetooth from './Bluetooth';
 import SampleNativeComponent from './SampleNativeComponent';
+import QCar from './QCar';
 
 interface BatteryStatusType {
   acCharge: boolean;
@@ -17,13 +20,17 @@ interface DockStatusType {
 }
 
 const App = () => {
+  /* ------------------------------- Clock State ------------------------------ */
   const [date, setDate] = useState<string>('');
   const [seconds, setSeconds] = useState<number>(0);
   const [color, setColor] = useState<string>('red');
+  /* ------------------------------ Battery State ----------------------------- */
   const [batteryLevel, setBatteryLevel] = useState<number>(0);
   // const [isCharging, setIsCharging] = useState<boolean>('N/A');
   const [batteryStatus, setBatteryStatus] = useState<BatteryStatusType | null>(null);
   const [dockStatus, setDockStatus] = useState<DockStatusType | null>(null);
+  /* ------------------------------- QCar State ------------------------------- */
+  const [sdkVersion, setSdkVersion] = useState<string>('');
 
   useEffect(() => {
     Clock.getCurrentTime().then((time: string) => {
@@ -31,20 +38,26 @@ const App = () => {
     });
     Clock.getCurrentTimeEvents(setSeconds);
     Clock.dispatchEventEverySecond();
-    Clock.getBatteryLevel().then((level: number) => {
+    
+    Battery.getBatteryLevel().then((level: number) => {
       console.log({level})
       setBatteryLevel(level);
     });
 
-    Clock.getBatteryStatus().then((status: BatteryStatusType) => {
+    Battery.getBatteryStatus().then((status: BatteryStatusType) => {
       console.log({status})
       setBatteryStatus(status);
     });
 
-    Clock.getDockedStatus().then((status: DockStatusType) => {
+    Battery.getDockedStatus().then((status: DockStatusType) => {
       console.log({status})
       setDockStatus(status);
     });
+
+    QCar.getSdkVersion().then((sdkVersion: string) => {
+      console.log({sdkVersion})
+      setSdkVersion(sdkVersion);
+    })
 
   }, []);
 
@@ -68,11 +81,15 @@ const App = () => {
       </View>
 
       <View style={{padding:20}}>
-      <Text style={{fontWeight:"900", marginBottom:5}}>Dock STATS:</Text>
-      <Text>Is Docked: {dockStatus&& dockStatus.isDocked?"Yes":"No"}</Text>
-      <Text>Is docked to Car: {dockStatus&& dockStatus.isCar?"Yes":"No"}</Text>
-      <Text>Is docked to Desk: {dockStatus&& dockStatus.isDesk?"Yes":"No"}</Text>
-      
+        <Text style={{fontWeight:"900", marginBottom:5}}>Dock STATS:</Text>
+        <Text>Is Docked: {dockStatus&& dockStatus.isDocked?"Yes":"No"}</Text>
+        <Text>Is docked to Car: {dockStatus&& dockStatus.isCar?"Yes":"No"}</Text>
+        <Text>Is docked to Desk: {dockStatus&& dockStatus.isDesk?"Yes":"No"}</Text>
+      </View>
+
+      <View style={{padding:20}}>
+        <Text style={{fontWeight:"900", marginBottom:5}}>QCAR:</Text>
+        <Text>SDKVersion: {sdkVersion}</Text>
       </View>
       <View style={{flex:1, display:'flex',width:'100%', borderRadius:10, overflow:'hidden'}}>
       <SampleNativeComponent
